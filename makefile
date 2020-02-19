@@ -33,12 +33,12 @@ _rm_pub: ## destroi o container pub-node-srv
 
 ##@ Docker Node Sub
 
-run_sub: ## iniciar o container sub-node-srv
-	docker run -d --rm --name sub-node-srv node:alpine
+run_sub: ## iniciar o container $SUB_NAME-sub-node-srv
+	docker run -d --rm --name ${SUB_NAME}-sub-node-srv node:alpine
 
-stop_sub: ## parar o container sub-node-srv
-	docker stop sub-node-srv
+stop_sub: ## parar o container $SUB_NAME-sub-node-srv
+	docker stop ${SUB_NAME}-sub-node-srv
 
-_rm_sub: ## destroi o container sub-node-srv
+_rm_sub: ## destroi o container $SUB_NAME-sub-node-srv
 	make stop_sub
-	docker rm sub-node-srv
+	docker rm ${SUB_NAME}-sub-node-srv
