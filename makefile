@@ -43,7 +43,7 @@ run_pub: ## inciar o container pub-node-srv
 		-v ${PWD}:/app \
 		-w /app \
 	node:alpine \
-	yarn set version berry && yarn exec nodemon -w /app /app/pub.js
+	yarn exec nodemon -w /app /app/pub.js
 
 stop_pub: ## parar o container pub-node-srv
 	docker stop pub-node-srv
@@ -60,7 +60,7 @@ run_sub: ## iniciar o container sub-node-srv
 			-v ${PWD}:/app \
 			-w /app \
 		node:alpine \
-		yarn set version berry && yarn exec nodemon /app/sub.js
+		yarn exec nodemon /app/sub.js
 
 stop_sub: ## parar o container sub-node-srv
 	docker stop sub-node-srv
