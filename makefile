@@ -21,6 +21,15 @@ clean: ## limpa o ambiente
 	rm -Rf node_modules yarn-error.log yarn.lock package.json .yarn .pnp.js .yarnrc.yml
 	ls -la
 
+monit: ## monitorar os processos rodando no docker
+	docker stats
+monitor: ## monitorar os processos rodando no docker
+	docker stats
+stats: ## monitorar os processos rodando no docker
+	docker stats
+status: ## monitorar os processos rodando no docker
+	docker stats
+
 ##@ Docker Redis
 
 run_redis: ## iniciar o container redis-srv
@@ -77,7 +86,7 @@ run_sub1: ## iniciar o container s01-sub-node-srv
 			-v ${PWD}:/app \
 			-w /app \
 		node:alpine \
-		yarn exec nodemon /app/sub.js
+		node /app/sub.js
 
 stop_sub1: ## parar o container s01-sub-node-srv
 	docker stop s01-sub-node-srv
@@ -111,7 +120,7 @@ run_sub3: ## iniciar o container s03-sub-node-srv
 			-v ${PWD}:/app \
 			-w /app \
 		node:alpine \
-		yarn exec nodemon /app/sub.js
+		node /app/sub.js
 
 stop_sub3: ## parar o container s03-sub-node-srv
 	docker stop s03-sub-node-srv
