@@ -112,7 +112,7 @@ _rm_sub2: ## destroi o container s02-sub-node-srv
 	make stop_sub2
 	docker rm s02-sub-node-srv
 
-##@ Docker Node Sub
+##@ Docker Node Sub 03
 
 run_sub3: ## iniciar o container s03-sub-node-srv
 		docker run -ti --rm --name s03-sub-node-srv \
