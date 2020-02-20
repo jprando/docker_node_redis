@@ -10,10 +10,15 @@ setup: ## preparar pasta node_modules
 		-v ${PWD}:/app \
 		-w /app \
 		-u node \
-	node:alpine yarn init -y && yarn add nodemon redis
+	node:alpine yarn init -y
+	docker run -ti --rm --name pub-node-srv \
+		-v ${PWD}:/app \
+		-w /app \
+		-u node \
+	node:alpine yarn add nodemon redis
 
 clean: ## limpa o ambiente
-	rm -Rf node_modules yarn-error.log yarn.lock package.json
+	rm -Rf node_modules yarn-error.log yarn.lock package.json .yarn .pnp.js .yarnrc.yml
 	ls -la
 
 ##@ Docker Redis
@@ -38,7 +43,7 @@ run_pub: ## inciar o container pub-node-srv
 		-v ${PWD}:/app \
 		-w /app \
 	node:alpine \
-	yarn exec nodemon -w /app /app/pub.js
+	yarn set version berry && yarn exec nodemon -w /app /app/pub.js
 
 stop_pub: ## parar o container pub-node-srv
 	docker stop pub-node-srv
@@ -49,17 +54,17 @@ _rm_pub: ## destroi o container pub-node-srv
 
 ##@ Docker Node Sub
 
-run_sub: ## iniciar o container $SUB_NAME-sub-node-srv
+run_sub: ## iniciar o container sub-node-srv
 		docker run -ti --rm --name sub-node-srv \
 			--link redis-srv:redis-db \
 			-v ${PWD}:/app \
 			-w /app \
 		node:alpine \
-		yarn exec nodemon /app/sub.js
+		yarn set version berry && yarn exec nodemon /app/sub.js
 
-stop_sub: ## parar o container $SUB_NAME-sub-node-srv
+stop_sub: ## parar o container sub-node-srv
 	docker stop sub-node-srv
 
-_rm_sub: ## destroi o container $SUB_NAME-sub-node-srv
+_rm_sub: ## destroi o container sub-node-srv
 	make stop_sub
 	docker rm sub-node-srv
