@@ -54,17 +54,68 @@ _rm_pub: ## destroi o container pub-node-srv
 
 ##@ Docker Node Sub
 
-run_sub: ## iniciar o container sub-node-srv
-		docker run -ti --rm --name sub-node-srv \
+run_sub: ## iniciar o container s00-sub-node-srv
+		docker run -ti --rm --name s00-sub-node-srv \
 			--link redis-srv:redis-db \
 			-v ${PWD}:/app \
 			-w /app \
 		node:alpine \
 		yarn exec nodemon /app/sub.js
 
-stop_sub: ## parar o container sub-node-srv
-	docker stop sub-node-srv
+stop_sub: ## parar o container s00-sub-node-srv
+	docker stop s00-sub-node-srv
 
-_rm_sub: ## destroi o container sub-node-srv
+_rm_sub: ## destroi o container s00-sub-node-srv
 	make stop_sub
-	docker rm sub-node-srv
+	docker rm s00-sub-node-srv
+
+##@ Docker Node Sub 01
+
+run_sub1: ## iniciar o container s01-sub-node-srv
+		docker run -ti --rm --name s01-sub-node-srv \
+			--link redis-srv:redis-db \
+			-v ${PWD}:/app \
+			-w /app \
+		node:alpine \
+		yarn exec nodemon /app/sub.js
+
+stop_sub1: ## parar o container s01-sub-node-srv
+	docker stop s01-sub-node-srv
+
+_rm_sub1: ## destroi o container s01-sub-node-srv
+	make stop_sub1
+	docker rm s01-sub-node-srv
+
+##@ Docker Node Sub 02
+
+run_sub2: ## iniciar o container s02-sub-node-srv
+		docker run -ti --rm --name s02-sub-node-srv \
+			--link redis-srv:redis-db \
+			-v ${PWD}:/app \
+			-w /app \
+		node:alpine \
+		yarn exec nodemon /app/sub.js
+
+stop_sub2: ## parar o container s02-sub-node-srv
+	docker stop s02-sub-node-srv
+
+_rm_sub2: ## destroi o container s02-sub-node-srv
+	make stop_sub2
+	docker rm s02-sub-node-srv
+
+##@ Docker Node Sub
+
+run_sub3: ## iniciar o container s03-sub-node-srv
+		docker run -ti --rm --name s03-sub-node-srv \
+			--link redis-srv:redis-db \
+			-v ${PWD}:/app \
+			-w /app \
+		node:alpine \
+		yarn exec nodemon /app/sub.js
+
+stop_sub3: ## parar o container s03-sub-node-srv
+	docker stop s03-sub-node-srv
+
+_rm_sub3: ## destroi o container s03-sub-node-srv
+	make stop_sub3
+	docker rm s03-sub-node-srv
