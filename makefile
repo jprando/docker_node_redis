@@ -5,6 +5,17 @@ help:  ## Display this help
 
 ##@ Bruno F DalCol
 
+setup: ## preparar pasta node_modules
+	docker run -ti --rm --name pub-node-srv \
+		-v ${PWD}:/app \
+		-w /app \
+		-u node \
+	node:alpine yarn init -y && yarn add nodemon redis
+
+clean: ## limpa o ambiente
+	rm -Rf node_modules yarn-error.log yarn.lock package.json
+	ls -la
+
 ##@ Docker Redis
 
 run_redis: ## iniciar o container redis-srv
@@ -22,7 +33,12 @@ _rm_redis: ## destroi o container redis-srv
 ##@ Docker Node Pub
 
 run_pub: ## inciar o container pub-node-srv
-	docker run -d --rm --name pub-node-srv node:alpine
+	docker run -ti --rm --name pub-node-srv \
+		--link redis-srv:redis-db \
+		-v ${PWD}:/app \
+		-w /app \
+	node:alpine \
+	yarn exec nodemon -w /app /app/pub.js
 
 stop_pub: ## parar o container pub-node-srv
 	docker stop pub-node-srv
@@ -34,11 +50,16 @@ _rm_pub: ## destroi o container pub-node-srv
 ##@ Docker Node Sub
 
 run_sub: ## iniciar o container $SUB_NAME-sub-node-srv
-	docker run -d --rm --name ${SUB_NAME}-sub-node-srv node:alpine
+		docker run -ti --rm --name sub-node-srv \
+			--link redis-srv:redis-db \
+			-v ${PWD}:/app \
+			-w /app \
+		node:alpine \
+		yarn exec nodemon /app/sub.js
 
 stop_sub: ## parar o container $SUB_NAME-sub-node-srv
-	docker stop ${SUB_NAME}-sub-node-srv
+	docker stop sub-node-srv
 
 _rm_sub: ## destroi o container $SUB_NAME-sub-node-srv
 	make stop_sub
-	docker rm ${SUB_NAME}-sub-node-srv
+	docker rm sub-node-srv
